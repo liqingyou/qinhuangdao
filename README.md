@@ -3,6 +3,8 @@
 > **Minecraft 方块风格 + GTA 城市漫游 + 宝可梦拍照收集** 的秦皇岛城市观光模拟器
 > 无需出门，在浏览器里逛秦皇岛：自由行走、探索景点、拍照打卡、收集图鉴、体验龙城昼夜与四季风光。
 
+🎮 **在线体验**：[https://liqingyou.github.io/qinhuangdao/](https://liqingyou.github.io/qinhuangdao/)
+
 基于 **Vue 3 + Three.js (WebGL)** 实现，纯前端运行、无需服务器。
 
 ---
@@ -48,21 +50,48 @@
 
 ## 🚀 快速开始
 
+### 本地开发
+
 ```bash
-# 安装依赖
+# 1. 克隆仓库
+git clone https://github.com/liqingyou/qinhuangdao.git
+cd qinhuangdao
+
+# 2. 安装依赖
 npm install
 
-# 本地开发（默认 http://localhost:5173）
+# 3. 启动开发服务器
 npm run dev
+```
 
-# 生产构建（输出到 dist/，可直接静态部署）
+启动后访问 **http://localhost:5173/qinhuangdao/** 即可开始游戏。
+
+### 构建与预览
+
+```bash
+# 生产构建（输出到 dist/）
 npm run build
 
 # 本地预览构建产物
 npm run preview
 ```
 
-> 构建使用相对路径（`base: './'`），`dist/` 可直接部署到任意静态托管（GitHub Pages、Vercel、Nginx 等）。
+---
+
+## 🌐 GitHub Pages 部署
+
+本项目已配置 GitHub Actions 自动部署。推送到 `main` 分支后会自动构建并部署到 GitHub Pages。
+
+### 首次启用步骤
+
+1. 进入仓库的 **Settings** 页面
+2. 左侧菜单选择 **Pages**
+3. **Source** 下拉框选择 **GitHub Actions**
+4. 保存后，推送代码到 `main` 分支即可触发部署
+
+部署完成后访问：**https://liqingyou.github.io/qinhuangdao/**
+
+> 构建使用 `base: '/qinhuangdao/'`，确保资源在子路径下正常加载。
 
 ---
 
