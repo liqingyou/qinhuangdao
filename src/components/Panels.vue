@@ -2,7 +2,7 @@
   <div v-if="ui.panel" class="overlay" @mousedown.self="close">
     <!-- 地图 -->
     <div v-if="ui.panel === 'map'" class="mc-panel panel big">
-      <div class="head"><span class="mc-title">🗺 广州地图</span><span class="muted">滚轮缩放 · 拖动平移 · 点击景点设置导航</span><button class="mc-btn small" @click="close">✕</button></div>
+      <div class="head"><span class="mc-title">🗺 秦皇岛地图</span><span class="muted">滚轮缩放 · 拖动平移 · 点击景点设置导航</span><button class="mc-btn small" @click="close">✕</button></div>
       <div class="map-body">
         <div class="map-wrap" ref="mapWrap">
           <canvas ref="mapCv" @mousedown="mapDown" @mousemove="mapMove" @mouseup="mapUp" @mouseleave="mapUp" @wheel.prevent="mapWheel" @touchstart.prevent="mapTouch" @touchmove.prevent="mapTouchMove"></canvas>
@@ -34,7 +34,7 @@
 
     <!-- 相册 -->
     <div v-else-if="ui.panel === 'album'" class="mc-panel panel big">
-      <div class="head"><span class="mc-title">📷 广州旅游相册</span><span class="muted">共 {{ photos.length }} 张</span><button class="mc-btn small" @click="close">✕</button></div>
+      <div class="head"><span class="mc-title">📷 秦皇岛旅游相册</span><span class="muted">共 {{ photos.length }} 张</span><button class="mc-btn small" @click="close">✕</button></div>
       <div class="checklist">
         <span v-for="it in lmVisible" :key="it.def.id" class="ck" :class="{ on: store.save.photographed[it.def.id] }">{{ store.save.photographed[it.def.id] ? '☑' : '☐' }} {{ known(it) ? it.def.name : '？？？' }}</span>
       </div>
@@ -42,7 +42,7 @@
         <img :src="viewing.full" />
         <div class="vbar">
           <b>{{ viewing.title }}</b><span class="muted">{{ viewing.sub }}</span>
-          <a class="mc-btn small green" :href="viewing.full" :download="'方块羊城-' + viewing.id + '.jpg'">⬇ 下载</a>
+          <a class="mc-btn small green" :href="viewing.full" :download="'方块龙城-' + viewing.id + '.jpg'">⬇ 下载</a>
           <button class="mc-btn small" @click="delPhoto(viewing)">🗑 删除</button>
           <button class="mc-btn small" @click="viewing = null">返回</button>
         </div>
@@ -58,7 +58,7 @@
 
     <!-- 图鉴 -->
     <div v-else-if="ui.panel === 'dex'" class="mc-panel panel big">
-      <div class="head"><span class="mc-title">📖 广州百科图鉴</span><span class="muted">完成度 {{ dexDone }}/{{ dexTotal }}</span><button class="mc-btn small" @click="close">✕</button></div>
+      <div class="head"><span class="mc-title">📖 秦皇岛百科图鉴</span><span class="muted">完成度 {{ dexDone }}/{{ dexTotal }}</span><button class="mc-btn small" @click="close">✕</button></div>
       <div class="tabs">
         <button v-for="t in dexTabs" :key="t.id" class="mc-btn small" :class="{ active: dexTab === t.id }" @click="dexTab = t.id">{{ t.n }}</button>
       </div>
@@ -76,7 +76,7 @@
         <template v-else-if="dexTab === 'food'">
           <div v-for="(f, id) in FOODS" :key="id" class="card" :class="{ locked: !store.save.foods.includes(id) }">
             <div class="ci">{{ store.save.foods.includes(id) ? f.icon : '❔' }}</div>
-            <div class="cb"><b>{{ store.save.foods.includes(id) ? f.name : '？？？' }}</b><div class="desc">{{ store.save.foods.includes(id) ? f.desc : '在广州街头的小吃店购买以解锁。' }}</div></div>
+            <div class="cb"><b>{{ store.save.foods.includes(id) ? f.name : '？？？' }}</b><div class="desc">{{ store.save.foods.includes(id) ? f.desc : '在秦皇岛街头的小吃店购买以解锁。' }}</div></div>
           </div>
         </template>
         <template v-else>
@@ -112,7 +112,7 @@
     <div v-else-if="ui.panel === 'tasks'" class="mc-panel panel">
       <div class="head"><span class="mc-title">📌 任务</span><button class="mc-btn small" @click="close">✕</button></div>
       <div class="scroll tasklist">
-        <div class="muted sub">新手任务 · 广州初体验</div>
+        <div class="muted sub">新手任务 · 秦皇岛初体验</div>
         <div v-for="(t, i) in NOVICE" :key="t.id" class="trow" :class="{ done: i < store.save.novice, cur: i === store.save.novice }">
           <span>{{ i < store.save.novice ? '☑' : '□' }}</span>
           <div><b>{{ t.title }}</b><div class="muted small">{{ t.desc }}</div></div>
@@ -140,7 +140,7 @@
         <div class="srow"><span>画质</span>
           <button v-for="q in qualities" :key="q.v" class="mc-btn small" :class="{ active: st.quality === q.v }" @click="st.quality = q.v; apply()">{{ q.n }}</button>
         </div>
-        <div class="srow"><span>珠江倒影</span><button class="mc-btn small" :class="{ active: st.reflect }" @click="st.reflect = !st.reflect; apply()">{{ st.reflect ? '开' : '关' }}</button>
+        <div class="srow"><span>海面倒影</span><button class="mc-btn small" :class="{ active: st.reflect }" @click="st.reflect = !st.reflect; apply()">{{ st.reflect ? '开' : '关' }}</button>
           <span>阴影</span><button class="mc-btn small" :class="{ active: st.shadows }" @click="st.shadows = !st.shadows; apply()">{{ st.shadows ? '开' : '关' }}</button>
           <span>小地图</span><button class="mc-btn small" :class="{ active: st.showMinimap }" @click="st.showMinimap = !st.showMinimap; apply()">{{ st.showMinimap ? '开' : '关' }}</button>
         </div>
@@ -156,7 +156,7 @@
         </div>
         <div class="srow"><span>鼠标灵敏度</span><input type="range" min="0.3" max="2.5" step="0.1" v-model.number="st.sensitivity" @change="apply" /> {{ st.sensitivity }}</div>
         <div class="srow"><button class="mc-btn small" @click="backToMenu">返回主菜单（修改角色/换出生点）</button></div>
-        <div class="muted small">提示：低端设备请选择“流畅”，并关闭珠江倒影与阴影。</div>
+        <div class="muted small">提示：低端设备请选择“流畅”，并关闭海面倒影与阴影。</div>
       </div>
     </div>
 
@@ -176,7 +176,7 @@
 
     <!-- 地铁 -->
     <div v-else-if="ui.panel === 'metro'" class="mc-panel panel">
-      <div class="head"><span class="mc-title">🚇 广州地铁 · 快速传送</span><button class="mc-btn small" @click="close">✕</button></div>
+      <div class="head"><span class="mc-title">🚇 秦皇岛轨道交通 · 快速传送</span><button class="mc-btn small" @click="close">✕</button></div>
       <div class="muted">当前车站：{{ ui.metroFrom && ui.metroFrom.name }} · 选择目的地站点</div>
       <div class="metro scroll">
         <button v-for="s in METRO_STATIONS" :key="s.id" class="mst" :disabled="ui.metroFrom && s.id === ui.metroFrom.id" @click="G.game.metroTravel(s)">
@@ -196,11 +196,11 @@
         <p><kbd>C</kbd> 摄影模式：<kbd>V</kbd> 切换第一人称/第三人称/自拍，<kbd>1</kbd>-<kbd>6</kbd> 切换滤镜（岭南复古、夜广州霓虹…），点击画面或 <kbd>F</kbd> 拍照，滚轮变焦</p>
         <p><kbd>M</kbd> 地图 · <kbd>B</kbd> 背包 · <kbd>P</kbd> 相册 · <kbd>N</kbd> 图鉴 · <kbd>J</kbd> 任务 · <kbd>Esc</kbd> 关闭面板</p>
         <p>🎯 玩法：步行探索 → 发现景点 → 拍照解锁图鉴 → 完成任务获得纪念品。</p>
-        <p>🚌 观光巴士 1 路：广州塔 ⇄ 珠江新城 ⇄ 北京路 ⇄ 陈家祠，在站台按 E 候车/上车。</p>
+        <p>🚌 观光巴士：鸽子窝 ⇄ 北戴河 ⇄ 秦皇岛港 ⇄ 山海关，在站台按 E 候车/上车。</p>
         <p>🚇 地铁：在红色“M”地铁口按 E，可快速传送至全市各站。</p>
-        <p>🚢 珠江夜游：在天字码头或广州塔码头登船；🗼 广州塔：塔底入口乘电梯登塔；🚡 白云索道：白云山南门。</p>
-        <p>🍜 美食：上下九（早茶、双皮奶、云吞面、烧鹅）、北京路（肠粉、牛杂）、荔枝湾（艇仔粥）、沙面（咖啡）。</p>
-        <p>🏮 文化：陈家祠醒狮与陶塑、永庆坊粤剧、北京路广府文化、上下九骑楼、五羊石像、中山纪念堂木棉。</p>
+        <p>🚢 渤海游船：在秦皇岛港码头登船出海观光；🚡 联峰山索道：北戴河联峰山公园内。</p>
+        <p>🍜 美食：北戴河海鲜大排档（皮皮虾、螃蟹、扇贝）、山海关烤冷面、抚宁粉鸽子、昌黎葡萄。</p>
+        <p>🏮 文化：山海关长城、天下第一关城楼、老龙头入海石城、鸽子窝观日出、曹操东临碣石、满族民俗。</p>
       </div>
     </div>
   </div>
@@ -224,7 +224,7 @@ const qualities = [{ v: 'low', n: '流畅' }, { v: 'medium', n: '均衡' }, { v:
 const timeOpts = [{ h: 7, n: '早晨' }, { h: 14, n: '下午' }, { h: 18.2, n: '黄昏' }, { h: 21, n: '夜晚' }]
 const dexTabs = [{ id: 'building', n: '🏛️ 建筑' }, { id: 'food', n: '🍜 食物' }, { id: 'culture', n: '🏮 文化' }]
 const dexTab = ref('building')
-const hintCulture = { opera: '在永庆坊粤剧艺术博物馆观看表演。', lion: '在陈家祠前广场观看醒狮。', guangfu: '北京路的广府文化源地。', qilou: '漫步上下九步行街。', huisu: '欣赏陈家祠的屋脊装饰。', wuyang: '前往越秀山五羊石像。', kapok: '中山纪念堂前的三百年木棉。', dragonboat: '在猎德大桥附近的珠江边观看龙舟。', teaculture: '在茶楼叹一次早茶。' }
+const hintCulture = { greatwall: '游览山海关长城和老龙头。', qinshihuang: '探索秦始皇求仙入海处。', caocao: '前往碣石山寻找曹操观海遗迹。', beidaihe: '在北戴河海滨感受避暑文化。', manzu: '探访青龙满族自治县的民俗风情。', haibindu: '体验秦皇岛海滨度假生活。', gangkou: '参观秦皇岛港了解港口文化。', changcheng: '登上天下第一关城楼。', niaolei: '在鸽子窝公园观赏候鸟迁徙。' }
 
 const lmVisible = computed(() => (G.game ? G.game.landmarks.items.filter((i) => !i.def.hidden) : []))
 const known = (it) => store.save.discovered.includes(it.def.id) || !!store.save.photographed[it.def.id]

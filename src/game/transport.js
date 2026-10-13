@@ -1,4 +1,4 @@
-// 交通系统：观光巴士、地铁快速传送、珠江夜游、广州塔电梯、白云索道、城市车流；交互点注册表
+// 交通系统：观光巴士、轨道交通快速传送、渤海游船、联峰山索道、城市车流；交互点注册表
 import * as THREE from 'three'
 import { Builder, disposeGroup } from './builder.js'
 import { BUS_ROUTE, METRO_STATIONS, PIERS, ROADS, cruiseRoute, WATER_Y, terrainHeight, isWater, roadAt, project } from './geo.js'
@@ -66,9 +66,9 @@ function busModel() {
   for (const z of [-4, 4]) for (const x of [-1.25, 1.25]) b.box(x - 0.25, 0, z - 0.6, x + 0.25, 1.1, z + 0.6, 0x1a1a1a, { solid: false })
   b.box(-1.0, 0.9, 6.02, -0.5, 1.2, 6.1, 0xfff2c0, { mat: 'lamp', solid: false })
   b.box(0.5, 0.9, 6.02, 1.0, 1.2, 6.1, 0xfff2c0, { mat: 'lamp', solid: false })
-  b.sign('广州观光巴士 1路', 1.46, 3.4, 0, 0.45, Math.PI / 2, { bg: '#c8282a', fg: '#ffffff', px: 40 })
-  b.sign('广州观光巴士 1路', -1.46, 3.4, 0, 0.45, -Math.PI / 2, { bg: '#c8282a', fg: '#ffffff', px: 40 })
-  b.sign('1 广州塔⇄陈家祠', 0, 2.7, 6.06, 0.32, 0, { bg: '#111', fg: '#ffb020', px: 40, glow: true })
+  b.sign('秦皇岛观光巴士', 1.46, 3.4, 0, 0.45, Math.PI / 2, { bg: '#c8282a', fg: '#ffffff', px: 40 })
+  b.sign('秦皇岛观光巴士', -1.46, 3.4, 0, 0.45, -Math.PI / 2, { bg: '#c8282a', fg: '#ffffff', px: 40 })
+  b.sign('鸽子窝⇄山海关', 0, 2.7, 6.06, 0.32, 0, { bg: '#111', fg: '#ffb020', px: 40, glow: true })
   return b.build()
 }
 
@@ -91,7 +91,7 @@ function carModel(color, taxi) {
 
 function cruiseModel() {
   const b = new Builder()
-  // 珠江夜游船：三层白色游船 + 霓虹灯带（局部 +z 为船头）
+  // 渤海游船：三层白色游船 + 霓虹灯带（局部 +z 为船头）
   b.box(-4, -0.8, -14, 4, 1.2, 12, 0xf2f2f2, { solid: false })
   for (let i = 0; i < 4; i++) b.box(-4 + i * 0.9, -0.8, 12 + i * 1.2, 4 - i * 0.9, 1.2, 13.2 + i * 1.2, 0xf2f2f2, { solid: false })
   b.box(-4.05, 0.2, -14, 4.05, 0.5, 12, 0x2a5aa8, { solid: false })
@@ -106,7 +106,7 @@ function cruiseModel() {
     b.box(3.65, y, -12.3, 3.75, y + 0.12, 8.3, 0x40c0ff, { mat: 'neon', solid: false })
   }
   for (let z = -12; z <= 8; z += 2) b.boxC(3.8, 1.2, z, 0.12, 1, 0.12, 0xcccccc, { solid: false }), b.boxC(-3.8, 1.2, z, 0.12, 1, 0.12, 0xcccccc, { solid: false })
-  b.sign('珠江夜游', 0, 5.4, 4.05, 0.9, 0, { bg: '#0a1a3a', fg: '#ffd76a', glow: true })
+  b.sign('渤海游船', 0, 5.4, 4.05, 0.9, 0, { bg: '#0a1a3a', fg: '#ffd76a', glow: true })
   return b.build()
 }
 
