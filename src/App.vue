@@ -4,7 +4,7 @@
     <GameView v-if="gameMounted" v-show="store.ui.screen === 'game'" ref="gv" />
     <div v-if="loading" class="loading">
       <div class="mc-panel load-box">
-        <div class="mc-title">方块羊城</div>
+        <div class="mc-title">方块龙城</div>
         <div class="load-text">{{ loadText }}</div>
         <div class="bar"><div class="fill" :style="{ width: (progress * 100).toFixed(0) + '%' }"></div></div>
         <div class="muted tip">{{ tip }}</div>
@@ -26,11 +26,11 @@ const loadText = ref('')
 const gv = ref(null)
 const TIPS = [
   '小贴士：按 C 进入摄影模式，拍下景点即可解锁图鉴。',
-  '小贴士：广州塔夜晚有灯光秀，按 T 可以快速跳转时间。',
+  '小贴士：鸽子窝日出闻名天下，按 T 可以快速跳转时间。',
   '小贴士：在地铁口按 E 可以快速传送到其他站点。',
   '小贴士：和路人聊天可以完成每日任务“找到5个NPC”。',
-  '小贴士：珠江夜游在天字码头和广州塔码头登船。',
-  '小贴士：上下九的老字号茶楼可以叹早茶。'
+  '小贴士：渤海游船在秦皇岛港码头登船出海。',
+  '小贴士：北戴河海鲜大排档可以品尝皮皮虾和螃蟹。'
 ]
 const tip = ref(TIPS[0])
 
@@ -38,7 +38,7 @@ async function startGame(spawn) {
   loading.value = true
   progress.value = 0
   tip.value = TIPS[Math.floor(Math.random() * TIPS.length)]
-  loadText.value = '正在初始化广州世界…'
+  loadText.value = '正在初始化秦皇岛世界…'
   await new Promise((r) => setTimeout(r, 30))
   if (!gameMounted.value) {
     gameMounted.value = true

@@ -3,40 +3,55 @@
     <svg class="skyline" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMax slice">
       <defs>
         <linearGradient id="sk" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#1a2348" />
-          <stop offset="0.6" stop-color="#6a4a7a" />
-          <stop offset="1" stop-color="#f09a5a" />
+          <stop offset="0" stop-color="#1a3058" />
+          <stop offset="0.5" stop-color="#f09a5a" />
+          <stop offset="1" stop-color="#5a9ad0" />
         </linearGradient>
       </defs>
       <rect width="1200" height="400" fill="url(#sk)" />
+      <!-- 山峦背景 -->
+      <g fill="#2a4a3a">
+        <polygon points="0,320 100,200 200,260 300,180 400,240 500,160 600,220 700,280 800,200 900,250 1000,180 1100,220 1200,280 1200,400 0,400" />
+      </g>
+      <!-- 长城城楼剪影 -->
       <g fill="#14161f">
-        <rect x="0" y="300" width="1200" height="100" />
-        <rect x="40" y="250" width="40" height="60" /><rect x="90" y="220" width="30" height="90" /><rect x="130" y="260" width="50" height="50" />
-        <rect x="200" y="200" width="36" height="110" /><rect x="244" y="230" width="28" height="80" />
-        <!-- 西塔 -->
-        <polygon points="320,310 330,90 352,80 362,310" />
-        <!-- 广州塔（像素化小蛮腰） -->
-        <polygon points="560,310 572,240 582,170 586,120 590,170 600,240 612,310" />
-        <rect x="583" y="40" width="6" height="85" />
-        <!-- 东塔 -->
-        <rect x="430" y="70" width="44" height="240" /><rect x="436" y="55" width="32" height="20" />
-        <rect x="660" y="180" width="40" height="130" /><rect x="710" y="230" width="34" height="80" />
-        <rect x="760" y="150" width="30" height="160" /><rect x="800" y="210" width="50" height="100" />
-        <rect x="870" y="250" width="70" height="60" /><rect x="950" y="200" width="30" height="110" />
-        <rect x="990" y="240" width="60" height="70" /><rect x="1060" y="190" width="36" height="120" /><rect x="1110" y="260" width="60" height="50" />
+        <rect x="0" y="320" width="1200" height="80" />
+        <!-- 山海关城楼 -->
+        <rect x="500" y="220" width="80" height="100" />
+        <rect x="510" y="180" width="60" height="50" />
+        <polygon points="505,180 540,140 575,180" />
+        <!-- 长城蜿蜒 -->
+        <rect x="40" y="290" width="120" height="30" />
+        <rect x="160" y="280" width="100" height="40" />
+        <rect x="260" y="275" width="80" height="45" />
+        <rect x="340" y="260" width="60" height="60" />
+        <rect x="400" y="250" width="100" height="70" />
+        <!-- 右侧城墙 -->
+        <rect x="580" y="260" width="100" height="60" />
+        <rect x="680" y="270" width="120" height="50" />
+        <rect x="800" y="280" width="100" height="40" />
+        <rect x="900" y="290" width="150" height="30" />
+        <rect x="1050" y="295" width="150" height="25" />
+        <!-- 烽火台 -->
+        <rect x="200" y="260" width="20" height="35" />
+        <rect x="720" y="250" width="20" height="35" />
+        <rect x="950" y="270" width="20" height="30" />
       </g>
-      <g fill="#ff5ab0" opacity="0.85">
-        <rect x="575" y="200" width="22" height="4" /><rect x="579" y="160" width="14" height="3" /><rect x="571" y="260" width="30" height="4" />
+      <!-- 海面 -->
+      <rect x="0" y="350" width="1200" height="50" fill="#3a6a9a" />
+      <g fill="#5a9ad0" opacity="0.5">
+        <rect x="100" y="360" width="60" height="3" />
+        <rect x="300" y="365" width="80" height="3" />
+        <rect x="600" y="358" width="70" height="3" />
+        <rect x="900" y="362" width="90" height="3" />
       </g>
-      <rect x="0" y="330" width="1200" height="70" fill="#1d2a48" />
-      <g fill="#ff7ac0" opacity="0.35"><rect x="570" y="335" width="32" height="60" /></g>
     </svg>
 
     <!-- 主菜单 -->
     <div v-if="step === 'menu'" class="center">
       <div class="logo">
-        <div class="big">方块羊城</div>
-        <div class="sub">BLOCK GUANGZHOU · 广州城市观光模拟器</div>
+        <div class="big">方块龙城</div>
+        <div class="sub">BLOCK QINHUANGDAO · 秦皇岛城市观光模拟器</div>
       </div>
       <div class="col">
         <button v-if="hasProfile" class="mc-btn primary wide" @click="step = 'spawn'">▶ 继续旅行（{{ store.save.profile.name }}）</button>
@@ -50,7 +65,7 @@
         <p><kbd>M</kbd> 地图 · <kbd>B</kbd> 背包 · <kbd>P</kbd> 相册 · <kbd>N</kbd> 图鉴 · <kbd>J</kbd> 任务 · <kbd>H</kbd> 帮助 · <kbd>Esc</kbd> 关闭</p>
         <p>移动端：建议横屏游玩，左侧虚拟摇杆移动，右侧滑动旋转视角，横屏时可用底部“⛶ 全屏”按钮。</p>
       </div>
-      <div class="foot muted">真实广州地图比例缩小 · 1公里 ≈ 200格 · 7大区 40+ 景点</div>
+      <div class="foot muted">真实秦皇岛地图比例缩小 · 1公里 ≈ 200格 · 7大区 15+ 景点</div>
     </div>
 
     <!-- 角色创建 -->
@@ -59,7 +74,7 @@
       <div class="create-body">
         <div class="preview" ref="previewEl"></div>
         <div class="form scroll">
-          <label>名字 <input v-model="name" maxlength="10" placeholder="羊城旅行家" /></label>
+          <label>名字 <input v-model="name" maxlength="10" placeholder="龙城旅行家" /></label>
           <div class="row">
             <span>性别</span>
             <button class="mc-btn small" :class="{ active: p.gender === 'm' }" @click="p.gender = 'm'">男</button>
@@ -170,7 +185,7 @@ function upload(e) {
   rd.readAsDataURL(f)
 }
 function saveChar() {
-  store.save.profile = { name: name.value.trim() || '羊城旅行家', skinParams: { ...p }, customSkin: customSkin.value }
+  store.save.profile = { name: name.value.trim() || '龙城旅行家', skinParams: { ...p }, customSkin: customSkin.value }
   persist()
   if (G.game) G.game.refreshSkin()
   step.value = 'spawn'

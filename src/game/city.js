@@ -4,35 +4,33 @@ import { Builder, disposeGroup } from './builder.js'
 import { terrainHeight, isWater, roadAt, riverAt, districtAt, isPark, project, unproject } from './geo.js'
 import { hash2, mulberry32 } from './util.js'
 import { getMaterials } from './materials.js'
-import { kapok, roundTree, palm, pine, banyan, lamp } from './landmarks/common.js'
+import { roundTree, pine, lamp } from './landmarks/common.js'
 
 export const CHUNK = 240
 const CELL = 4
 const LOT = 24
 
 // 区域风格
-const ZJXC = project(23.1215, 113.326) // 珠江新城核心
-const TIANHE_N = project(23.142, 113.33)
-const PAZHOU = project(23.099, 113.37)
+const HAIGANG_CENTER = project(39.93, 119.60) // 海港区中心
+const BEIDAIHE_CENTER = project(39.83, 119.49)
+const SHANHAIGUAN_CENTER = project(40.00, 119.77)
 
 function profileAt(x, z, dist) {
   const d = districtAt(x, z)
-  const dz = Math.hypot(x - ZJXC.x, z - ZJXC.z)
-  const d0 = districtAt(x, z)
-  if (dz < 400 && d0 === 'tianhe') return { type: 'cbd', dens: 0.68, hmin: 40, hmax: 135 }
-  if (Math.hypot(x - TIANHE_N.x, z - TIANHE_N.z) < 420) return { type: 'office', dens: 0.8, hmin: 25, hmax: 80 }
-  if (Math.hypot(x - PAZHOU.x, z - PAZHOU.z) < 350) return { type: 'office', dens: 0.6, hmin: 20, hmax: 70 }
+  const dh = Math.hypot(x - HAIGANG_CENTER.x, z - HAIGANG_CENTER.z)
+  if (dh < 300 && d === 'haigang') return { type: 'cbd', dens: 0.6, hmin: 20, hmax: 80 }
+  if (Math.hypot(x - BEIDAIHE_CENTER.x, z - BEIDAIHE_CENTER.z) < 350) return { type: 'resort', dens: 0.4, hmin: 8, hmax: 25 }
+  if (Math.hypot(x - SHANHAIGUAN_CENTER.x, z - SHANHAIGUAN_CENTER.z) < 300) return { type: 'old', dens: 0.6, hmin: 5, hmax: 15 }
   const far = dist > 2600
   switch (d) {
-    case 'tianhe': return { type: 'resi', dens: 0.75, hmin: 18, hmax: 55 }
-    case 'yuexiu': return { type: 'old', dens: 0.85, hmin: 6, hmax: 24 }
-    case 'liwan': return { type: 'old', dens: 0.85, hmin: 5, hmax: 16 }
-    case 'haizhu': return { type: 'resi', dens: 0.75, hmin: 14, hmax: 45 }
-    case 'baiyun': return { type: 'resi', dens: 0.55, hmin: 10, hmax: 36 }
-    case 'panyu': return far ? { type: 'village', dens: 0.35, hmin: 4, hmax: 10 } : { type: 'resi', dens: 0.5, hmin: 16, hmax: 50 }
-    case 'nansha': return { type: 'village', dens: 0.3, hmin: 4, hmax: 12 }
-    case 'huangpu': return { type: 'resi', dens: 0.45, hmin: 10, hmax: 40 }
-    default: return { type: 'resi', dens: 0.5, hmin: 10, hmax: 30 }
+    case 'haigang': return { type: 'resi', dens: 0.65, hmin: 12, hmax: 45 }
+    case 'shanhaiguan': return { type: 'old', dens: 0.5, hmin: 4, hmax: 12 }
+    case 'beidaihe': return { type: 'resort', dens: 0.35, hmin: 6, hmax: 20 }
+    case 'funing': return { type: 'village', dens: 0.4, hmin: 4, hmax: 12 }
+    case 'changli': return far ? { type: 'village', dens: 0.3, hmin: 3, hmax: 8 } : { type: 'resi', dens: 0.4, hmin: 8, hmax: 25 }
+    case 'lulong': return { type: 'village', dens: 0.35, hmin: 4, hmax: 10 }
+    case 'qinglong': return { type: 'village', dens: 0.25, hmin: 3, hmax: 8 }
+    default: return { type: 'resi', dens: 0.4, hmin: 8, hmax: 25 }
   }
 }
 
@@ -204,8 +202,8 @@ export class CityManager {
         if (isPark(cx, cz)) {
           if (detail && rnd() < 0.7) {
             const tx = cx + (rnd() - 0.5) * 12, tz = cz + (rnd() - 0.5) * 12
-            if (rnd() < 0.3) kapok(b, tx, 0, tz, 0.9)
-            else banyan(b, tx, 0, tz, 0.8, Math.floor(rnd() * 99))
+            if (rnd() < 0.4) pine(b, tx, 0, tz, 0.9)
+            else roundTree(b, tx, 0, tz, 0.8, 0x4a8a3a)
           }
           continue
         }
@@ -283,7 +281,22 @@ export class CityManager {
       }
       return
     }
-    // village：岭南乡村小楼 / 坡屋顶
+    if (p.type === 'resort') {
+      // 度假村：低层别墅风格建筑
+      const col = WALL_RESI[Math.floor(rnd() * WALL_RESI.length)]
+      const hh = Math.max(6, Math.min(h, 18))
+      b.box(x0, 0, z0, x1, hh, z1, col, 'window')
+      // 坡屋顶
+      if (rnd() < 0.7) b.gableRoof(x0, x1, z0, z1, hh, 3, 0x8a4a3a, { over: 0.6 })
+      else b.box(x0 - 0.2, hh, z0 - 0.2, x1 + 0.2, hh + 0.5, z1 + 0.2, 0xb8b4ac)
+      // 阳台
+      if (detail && rnd() < 0.6) {
+        b.box(x0 - 0.3, hh * 0.5, z1, x1 + 0.3, hh * 0.5 + 0.15, z1 + 1.5, 0xf2f2f2, { solid: false })
+      }
+      if (detail && rnd() < 0.4) roundTree(b, x1 + 2, 0, z1 + 2, 0.7)
+      return
+    }
+    // village：北方乡村小楼 / 坡屋顶
     const col = WALL_OLD[Math.floor(rnd() * WALL_OLD.length)]
     const hh = Math.max(4, h)
     b.box(x0 + 2, 0, z0 + 2, x1 - 2, hh, z1 - 2, col, 'window')
@@ -300,7 +313,7 @@ export class CityManager {
     }
     if (rnd() < 0.3) b.box(ox - w / 2 + 1, y, oz - 1, ox - w / 2 + 3, y + 1, oz + 1, 0xd0d0d0, { solid: false })
   }
-  // 行道树、路灯（木棉 + 榕树，广州特色）
+  // 行道树、路灯（松树 + 落叶树，北方特色）
   buildStreets(b, x0, z0) {
     const step = 14
     for (let gx = x0 + step / 2; gx < x0 + CHUNK; gx += step)
@@ -320,9 +333,8 @@ export class CityManager {
         if (isWater(tx, tz) || this.excluded(tx, tz, 2) || terrainHeight(tx, tz) > 0) continue
         if (roadAt(tx, tz, -1.5)) continue
         const hsh = hash2(Math.floor(tx), Math.floor(tz), 3)
-        if (hsh < 0.18) kapok(b, tx, 0, tz, 0.75)
-        else if (hsh < 0.55) roundTree(b, tx, 0, tz, 0.9, 0x3d8a3a)
-        else if (hsh < 0.7) banyan(b, tx, 0, tz, 0.6, Math.floor(hsh * 100))
+        if (hsh < 0.25) pine(b, tx, 0, tz, 0.75)
+        else if (hsh < 0.6) roundTree(b, tx, 0, tz, 0.9, 0x3d8a3a)
         else if (hsh < 0.85) lamp(b, tx, 0, tz, 5)
       }
   }
