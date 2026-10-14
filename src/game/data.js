@@ -43,7 +43,12 @@ export const SOUVENIRS = {
   s_zushan: { name: '祖山登顶徽章', icon: '⛰️', desc: '登上祖山天女峰。' },
   s_jieshi: { name: '碣石山徽章', icon: '🏔️', desc: '游览碣石山仙台顶。' },
   s_tshirt: { name: '"我爱秦皇岛"T恤', icon: '👕', desc: '海滨商店有售。', price: 59 },
-  s_postcard: { name: '秦皇岛明信片', icon: '🖼️', desc: '各景点纪念品店有售。', price: 15 }
+  s_postcard: { name: '秦皇岛明信片', icon: '🖼️', desc: '各景点纪念品店有售。', price: 15 },
+  s_cable: { name: '联峰山索道纪念票', icon: '🚡', desc: '乘坐联峰山索道获得。' },
+  s_seacable: { name: '跨海索道纪念票', icon: '🎟️', desc: '乘坐仙螺岛跨海索道获得。' },
+  s_xianluodao: { name: '仙螺岛贝壳挂件', icon: '🐚', desc: '游览仙螺岛获得。', price: 25 },
+  s_card: { name: '轨道交通纪念卡', icon: '🎫', desc: '乘坐轨道交通获得。' },
+  s_cruise: { name: '渤海游船纪念票', icon: '🚢', desc: '乘坐渤海游船获得。' }
 }
 
 export const SHOPS = {
@@ -54,7 +59,8 @@ export const SHOPS = {
   putao: { name: '昌黎葡萄园', greet: '尝尝我们的玫瑰香葡萄，特甜！', items: ['putao'] },
   souvenir: { name: '景区纪念品店', greet: '带点纪念品回家吧！', items: ['s_shell', 's_postcard'] },
   shanhaiguan: { name: '山海关纪念品店', greet: '欢迎来到天下第一关！', items: ['s_greatwall', 's_putao'] },
-  mall: { name: '海滨商城', greet: '欢迎光临海滨商城！', items: ['s_tshirt', 'pipixia'] }
+  mall: { name: '海滨商城', greet: '欢迎光临海滨商城！', items: ['s_tshirt', 'pipixia'] },
+  xianluodao_seafood: { name: '仙螺岛海鲜餐厅', greet: '岛上的海鲜，鲜掉眉毛！', items: ['pipixia', 'pangxie', 'haican', 's_xianluodao'] }
 }
 SOUVENIRS.s_greatwall.price = 88
 

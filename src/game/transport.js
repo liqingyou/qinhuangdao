@@ -414,10 +414,63 @@ export class TransportSystem {
       gd.position.x += u < 0.5 ? 0 : 2
     }
   }
+  // ---------- 跨海索道 ----------
+  setupSeaCable(a, b) {
+    if (this.seaCable) return
+    this.seaCableA = a
+    this.seaCableB = b
+    const g = new THREE.Group()
+    const bb = new Builder()
+    const N = 40
+    this.seaCablePts = []
+    for (let i = 0; i <= N; i++) {
+      const t = i / N
+      const x = a.x + (b.x - a.x) * t, z = a.z + (b.z - a.z) * t
+      const y = a.y + (b.y - a.y) * t - Math.sin(t * Math.PI) * 18
+      this.seaCablePts.push(new THREE.Vector3(x, Math.max(y, WATER_Y + 15), z))
+    }
+    for (let i = 1; i <= N; i++) {
+      const p = this.seaCablePts[i - 1], q = this.seaCablePts[i]
+      bb.beam(p.x, p.y, p.z, q.x, q.y, q.z, 0.15, 0x333333)
+      bb.beam(p.x + 2.5, p.y, p.z, q.x + 2.5, q.y, q.z, 0.15, 0x333333)
+      if (i % 8 === 0 && i < N) {
+        bb.beam(q.x + 1.25, WATER_Y, q.z, q.x + 1.25, q.y + 2, q.z, 1.2, 0x4080c0)
+        bb.beam(q.x - 1, q.y + 1, q.z, q.x + 3.5, q.y + 1, q.z, 0.5, 0x4080c0)
+      }
+    }
+    g.add(bb.build())
+    this.seaGondolas = []
+    for (let i = 0; i < 6; i++) {
+      const gd = gondola()
+      gd.userData.u = i / 6
+      g.add(gd)
+      this.seaGondolas.push(gd)
+    }
+    this.seaCable = g
+    this.scene.add(g)
+  }
+  seaCablePoint(u) {
+    const P = this.seaCablePts
+    const f = clamp(u, 0, 1) * (P.length - 1)
+    const i = Math.min(P.length - 2, Math.floor(f))
+    return P[i].clone().lerp(P[i + 1], f - i)
+  }
+  updateSeaCable(dt) {
+    if (!this.seaCable) return
+    for (const gd of this.seaGondolas) {
+      if (gd.userData.ridden) continue
+      gd.userData.u = (gd.userData.u + dt * 0.018) % 1
+      const u = gd.userData.u
+      const p = this.seaCablePoint(u < 0.5 ? u * 2 : 2 - u * 2)
+      gd.position.copy(p)
+      gd.position.x += u < 0.5 ? 0 : 2.5
+    }
+  }
   update(dt, px, pz) {
     this.updateBus(dt)
     this.updateCars(dt, px, pz)
     this.updateCable(dt)
+    this.updateSeaCable(dt)
     return this.updateBoat(dt)
   }
 }
