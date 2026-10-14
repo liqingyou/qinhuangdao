@@ -194,4 +194,97 @@ export function buildNandaihe(b, ctx) {
   // 交互点
   ctx.interact({ x: cx - 30, z: cz + 30, r: 6, type: 'info', label: '体验滑沙', text: '南戴河国际滑沙中心是中国最大的滑沙场，从60米高的沙丘滑下直入海中，惊险刺激。' })
   ctx.interact({ x: cx + 30, z: cz + 20, r: 6, type: 'view', label: '观赏：黄金海岸', id: 'nandaihe_view', landmark: 'nandaihe' })
+  // 跨海索道登乘点（岸边）
+  ctx.interact({ x: cx + 60, z: cz + 45, r: 5, type: 'seacable', dir: 1, label: '🚡 跨海索道 → 仙螺岛' })
+}
+
+// 仙螺岛 - 海上人工岛
+export function buildXianluodao(b, ctx) {
+  const cx = 0, cz = 0
+  
+  // 岛屿基座（海上礁石）
+  b.prism(cx, cz, -2, 1, 35, 30, 8, 0x6a7a80, { mat: 'stone' })
+  b.prism(cx, cz, 1, 2.5, 32, 28, 8, 0x7a8a90, { mat: 'stone' })
+  
+  // 环岛栈道
+  for (let i = 0; i < 8; i++) {
+    const a = (i / 8) * Math.PI * 2
+    const r = 28
+    const x = cx + Math.cos(a) * r, z = cz + Math.sin(a) * r
+    b.box(x - 2, 2, z - 2, x + 2, 2.5, z + 2, 0x8a7a6a, { mat: 'wood', solid: false })
+  }
+  railing(b, cx - 30, cz, cx + 30, cz, 2.5, 1, 0x666666, 3)
+  
+  // 仙螺阁 - 螺旋形观光塔
+  const towerX = cx, towerZ = cz - 5
+  // 塔基
+  b.prism(towerX, towerZ, 2, 5, 10, 10, 8, C.granite)
+  // 螺旋塔身（层层缩小，螺旋上升）
+  for (let i = 0; i < 7; i++) {
+    const y = 5 + i * 6
+    const r = 8 - i * 0.8
+    const rot = i * 0.3
+    b.prism(towerX + Math.cos(rot) * 0.5, towerZ + Math.sin(rot) * 0.5, y, y + 5, r, r, 8, 0xf0e8dc, { mat: 'window' })
+    // 外挑观景平台
+    const px = towerX + Math.cos(rot + Math.PI/2) * (r + 2)
+    const pz = towerZ + Math.sin(rot + Math.PI/2) * (r + 2)
+    b.box(px - 3, y + 2, pz - 3, px + 3, y + 2.5, pz + 3, 0xe8e0d0, { solid: false })
+    railing(b, px - 3, pz - 3, px + 3, pz + 3, y + 2.5, 1, 0x8a8a8a)
+  }
+  // 塔顶（海螺形）
+  b.prism(towerX, towerZ, 47, 55, 5, 5, 8, C.glazedGreen, { rx1: 0.1, rz1: 0.1, solid: false })
+  b.boxC(towerX, 55, towerZ, 0.5, 3, 0.5, C.gold, { solid: false })
+  b.sign('仙螺阁', towerX, 48, towerZ + 6, 1.0, 0, { bg: '#1a3a5a', fg: '#7ad0ff', glow: true })
+  
+  // 海上娱乐设施
+  // 蹦极台
+  b.box(cx + 18, 2, cz + 8, cx + 24, 35, cz + 14, 0xd04040, { mat: 'metal' })
+  b.box(cx + 18, 35, cz + 6, cx + 24, 37, cz + 16, 0xe8e8e8)
+  b.sign('海上蹦极', cx + 21, 32, cz + 14.1, 0.7, 0, { bg: '#c03030', fg: '#ffffff' })
+  
+  // 观海平台
+  b.box(cx - 22, 2, cz + 5, cx - 12, 4, cz + 15, 0x8a7a6a, { mat: 'wood' })
+  railing(b, cx - 22, cz + 5, cx - 12, cz + 15, 4, 1, 0x666666, 2)
+  for (let i = 0; i < 3; i++) {
+    bench(b, cx - 20 + i * 4, 4, cz + 10, 'z')
+  }
+  
+  // 海鲜餐厅
+  b.box(cx - 15, 2, cz - 20, cx + 5, 8, cz - 10, 0x9fc6e0, { mat: 'window' })
+  b.prism(cx - 5, cz - 15, 8, 11, 12, 7, 4, C.glazedGreen, { solid: false })
+  b.sign('海鲜餐厅', cx - 5, 6, cz - 9.9, 0.6, 0, { bg: '#2a5a8a', fg: '#ffffff' })
+  
+  // 索道站（岛上）
+  b.box(cx + 25, 2, cz - 8, cx + 35, 10, cz + 2, 0xe8e4dc, { mat: 'window' })
+  b.prism(cx + 30, cz - 3, 10, 13, 7, 7, 4, 0x4080c0, { solid: false })
+  b.sign('跨海索道', cx + 30, 8, cz + 2.1, 0.7, 0, { bg: '#3060a0', fg: '#ffffff' })
+  // 索道支架
+  b.boxC(cx + 30, 2, cz - 3, 1.5, 18, 1.5, 0x8a8a8a)
+  b.box(cx + 27, 20, cz - 6, cx + 33, 21, cz, 0x6a6a6a)
+  
+  // 灯塔
+  b.boxC(cx - 28, 2, cz - 15, 2, 20, 2, 0xfafafa)
+  b.prism(cx - 28, cz - 15, 22, 25, 3, 3, 8, 0xf0e050, { solid: false })
+  
+  // 礁石装饰
+  for (let i = 0; i < 6; i++) {
+    const r = mulberry32(i + 100)
+    const a = r() * Math.PI * 2
+    const d = 33 + r() * 8
+    const x = cx + Math.cos(a) * d, z = cz + Math.sin(a) * d
+    b.boxC(x, -1, z, 2 + r() * 2, 3 + r() * 2, 2 + r() * 2, 0x5a6a70, { solid: false })
+  }
+  
+  // 交互点
+  ctx.interact({ x: towerX, z: towerZ, r: 6, type: 'view', label: '登塔：仙螺阁', id: 'xianluoge', landmark: 'xianluodao' })
+  ctx.interact({ x: cx + 21, z: cz + 11, r: 4, type: 'info', label: '海上蹦极', text: '仙螺岛海上蹦极高度达55米，是国内著名的海上蹦极项目，勇敢者的挑战！' })
+  ctx.interact({ x: cx - 5, z: cz - 12, r: 5, type: 'shop', shop: 'xianluodao_seafood' })
+  // 索道返回点
+  ctx.interact({ x: cx + 30, z: cz - 3, r: 5, type: 'seacable', dir: -1, label: '🚡 跨海索道 → 南戴河' })
+}
+
+export function xianluodaoLOD(b) {
+  // 远景简化 - 只显示螺旋塔轮廓
+  b.prism(0, -5, -2, 2, 30, 25, 8, 0x7a8a90, { solid: false })
+  b.prism(0, -5, 2, 50, 8, 8, 8, 0xf0e8dc, { solid: false })
 }

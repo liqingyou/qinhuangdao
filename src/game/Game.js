@@ -72,6 +72,7 @@ export class Game {
     this.photo = new PhotoSystem(this.renderer)
     this.applyQuality()
     this.setupCable()
+    this.setupSeaCable()
     this.baseMap = renderBaseMap(this.landmarks)
 
     // 玩家
@@ -150,6 +151,14 @@ export class Game {
     const a = this.landmarks.toWorld('beidaihe', 18, 10, -4)
     const b = this.landmarks.toWorld('lianfengshan', 9, 50, -9)
     this.transport.setupCable(a, b)
+  }
+  setupSeaCable() {
+    const nandaihe = this.landmarks.byId.nandaihe
+    const xianluodao = this.landmarks.byId.xianluodao
+    if (!nandaihe || !xianluodao) return
+    const a = this.landmarks.toWorld('nandaihe', 60, 12, 45)
+    const b = this.landmarks.toWorld('xianluodao', 30, 22, -3)
+    this.transport.setupSeaCable(a, b)
   }
   makeWaypoint() {
     const g = new THREE.Group()
@@ -553,6 +562,11 @@ export class Game {
           title: '🚡 联峰山索道', text: it.dir > 0 ? '乘坐索道上山，前往联峰山望海亭方向（¥25）。' : '乘坐索道下山，返回北戴河（¥25）。',
           options: [{ label: '购票乘坐（¥25）', action: () => this.rideCable(it.dir) }, { label: '取消', action: () => this.closeDialog() }]
         })
+      case 'seacable':
+        return this.dialog({
+          title: '🚡 仙螺岛跨海索道', text: it.dir > 0 ? '乘坐跨海索道前往仙螺岛，全长约1000米，是国内唯一的海上索道（¥40）。' : '乘坐索道返回南戴河海岸（¥40）。',
+          options: [{ label: '购票乘坐（¥40）', action: () => this.rideSeaCable(it.dir) }, { label: '取消', action: () => this.closeDialog() }]
+        })
     }
   }
   talkNPC(n) {
@@ -691,6 +705,39 @@ export class Game {
         pl.pos.y = pl.groundAt(end.x, end.z, end.y + 3)
         events.count('cable')
         toast(dir > 0 ? '已到达联峰山顶 · 望海亭' : '已到达北戴河')
+      }
+    }
+  }
+  // ---------- 跨海索道 ----------
+  rideSeaCable(dir) {
+    this.closeDialog()
+    if (store.save.money < 40) return toast('票价 ¥40', 'warn')
+    store.save.money -= 40
+    const tr = this.transport
+    const p = this.player
+    if (!tr.seaGondolas || !tr.seaGondolas.length) return toast('索道暂未开放', 'warn')
+    const gd = tr.seaGondolas[0]
+    gd.userData.ridden = true
+    let u = 0
+    const dur = 35
+    p.view = 'third'
+    p.camDist = 12
+    this.rideLabel = () => `🚡 仙螺岛跨海索道 · 海拔 ${Math.round(p.pos.y * 2.5)} 米`
+    p.scripted = (dt, pl) => {
+      u += dt / dur
+      const k = dir > 0 ? u : 1 - u
+      const pt = tr.seaCablePoint(k)
+      gd.position.copy(pt)
+      pl.pos.set(pt.x, pt.y - 2.3, pt.z)
+      if (u >= 1) {
+        pl.scripted = null
+        this.rideLabel = null
+        gd.userData.ridden = false
+        const end = dir > 0 ? this.landmarks.toWorld('xianluodao', 25, 4, 0) : this.landmarks.toWorld('nandaihe', 55, 0.5, 40)
+        pl.teleport(end.x, end.y + 0.2, end.z, pl.camYaw)
+        pl.pos.y = pl.groundAt(end.x, end.z, end.y + 3)
+        events.count('seacable')
+        toast(dir > 0 ? '已到达仙螺岛' : '已到达南戴河')
       }
     }
   }

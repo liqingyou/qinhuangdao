@@ -279,6 +279,7 @@ export const events = {
     if (key === 'metro' && !s.items.s_card) addItem('s_card')
     if (key === 'cruise' && !s.items.s_cruise) addItem('s_cruise')
     if (key === 'cable' && !s.items.s_cable) addItem('s_cable')
+    if (key === 'seacable' && !s.items.s_seacable) addItem('s_seacable')
     checkTasks()
   },
   deck() {
