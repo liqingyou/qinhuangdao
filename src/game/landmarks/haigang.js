@@ -1,4 +1,4 @@
-// 海港区景点建模：秦皇岛港、奥林匹克公园、野生动物园、乐岛海洋公园
+// 海港区景点建模：秦皇岛港、奥林匹克公园、野生动物园、乐岛海洋公园、海阳路供电营业厅
 import { C, roundTree, pine, lamp, bench, railing, paving, modernTower } from './common.js'
 import { mulberry32 } from '../util.js'
 
@@ -171,4 +171,48 @@ export function buildLedaoOceanPark(b, ctx) {
   // 交互点
   ctx.interact({ x: cx, z: cz + 38, r: 6, type: 'info', label: '乐岛海洋公园', text: '乐岛海洋公园是以海洋为主题的综合性娱乐公园，有海豚表演、海洋动物展示、水上乐园等项目。' })
   ctx.interact({ x: cx + 35, z: cz - 20, r: 5, type: 'culture', id: 'dolphinshow', label: '观看海豚表演' })
+}
+
+// 国网海阳路供电营业厅：海港区海阳路265号，原交警支队大楼一层
+export function buildHaiyangGridHall(b, ctx) {
+  const cx = 0, cz = 0
+  const green = 0x0e8a4a
+  // 门前广场与海阳路一侧人行道
+  paving(b, cx - 26, cz + 14, cx + 26, cz + 30, 0, C.pave)
+  paving(b, cx - 18, cz + 6, cx + 18, cz + 14, 0.12, 0xd8d4cc)
+  // 主楼（原交警支队办公楼）
+  b.box(cx - 16, 0, cz - 12, cx + 16, 20, cz + 8, 0xe7e3d8, { mat: 'window' })
+  b.box(cx - 16, 20, cz - 12, cx + 16, 21, cz + 8, 0xc8c4ba, { solid: false })
+  // 一层营业厅：绿色门头 + 玻璃幕墙
+  b.box(cx - 16.2, 0, cz + 6, cx + 16.2, 5.2, cz + 12, green)
+  b.box(cx - 14, 0.5, cz + 8.2, cx + 14, 4.4, cz + 11.6, 0xc5e6d4, { mat: 'glass', solid: false })
+  b.box(cx - 18, 4.6, cz + 8, cx + 18, 5.4, cz + 16, green, { solid: false })
+  b.sign('国家电网', cx, 6.6, cz + 12.2, 0.9, 0, { bg: '#0e8a4a', fg: '#ffffff' })
+  b.sign('海阳路供电营业厅', cx, 3.1, cz + 12.15, 0.55, 0, { bg: '#0e8a4a', fg: '#ffffff' })
+  // 自助服务终端
+  for (let i = 0; i < 3; i++) {
+    const x = cx - 8 + i * 6
+    b.box(x - 0.7, 0.2, cz + 9, x + 0.7, 2.1, cz + 10.2, 0x2a2a2a, { solid: false })
+    b.box(x - 0.5, 1.05, cz + 10.15, x + 0.5, 1.9, cz + 10.35, 0x7ad0ff, { mat: 'glass', solid: false })
+  }
+  // 台阶
+  b.box(cx - 7, 0, cz + 12, cx + 7, 0.25, cz + 16, C.stone, { solid: false })
+  b.box(cx - 6, 0.25, cz + 12.3, cx + 6, 0.5, cz + 15.4, C.stone, { solid: false })
+  // 营业时间牌
+  b.box(cx + 12, 0, cz + 13, cx + 13.4, 2.6, cz + 14.2, 0xf7f7f4)
+  b.sign('营业时间', cx + 12.7, 1.9, cz + 14.3, 0.32, 0, { bg: '#0e8a4a', fg: '#ffffff' })
+  // 国网绿柱
+  b.boxC(cx - 20, 0, cz + 18, 0.8, 8, 0.8, green, { solid: false })
+  b.boxC(cx - 20, 8, cz + 18, 1.6, 1.6, 0.3, green, { solid: false })
+  // 行道树与路灯
+  for (let i = 0; i < 4; i++) {
+    roundTree(b, cx - 20 + i * 13, 0, cz + 24, 0.9)
+    lamp(b, cx - 16 + i * 11, 0, cz + 20, 5, 'modern')
+  }
+  bench(b, cx - 10, 0.12, cz + 18, 'x')
+  bench(b, cx + 8, 0.12, cz + 18, 'x')
+  ctx.interact({
+    x: cx, z: cz + 15, r: 6, type: 'info', label: '海阳路供电营业厅',
+    text: '国网秦皇岛供电公司海阳路供电营业厅，位于海港区海阳路265号（原交警支队大楼一层）。电话 0335-3382734。营业时间：周一至周五 8:30–17:30，周六、周日及法定节假日 8:30–17:00。可办理用电报装、电费和充电桩报装等业务。'
+  })
 }
