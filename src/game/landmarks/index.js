@@ -41,7 +41,8 @@ export const LANDMARKS = [
     desc: '联峰山是北戴河最高峰，海拔153米，山上松柏苍翠，百鸟争鸣。山顶望海亭可俯瞰整个北戴河海滨和渤海湾，是登高望远的好去处。' },
   { id: 'nandaihe', name: '南戴河', alias: '黄金海岸', district: 'beidaihe', grade: 'A', lat: 39.81, lon: 119.42, rect: [90, 70], focusY: 4, build: buildNandaihe,
     desc: '南戴河拥有国际滑沙中心和黄金海岸，沙质细腻金黄，海水洁净。滑沙项目从60米高的沙丘滑下直入海中，惊险刺激。' },
-  { id: 'xianluodao', name: '仙螺岛', alias: '海上乐园', district: 'beidaihe', grade: 'A', lat: 39.80, lon: 119.41, rect: [45, 40], focusY: 35, snap: 'water', photoR: 800, lod: xianluodaoLOD, build: buildXianluodao,
+  // 落在海岸水带内（南戴河外海）。snap 只接受东南西北，不能写 water。
+  { id: 'xianluodao', name: '仙螺岛', alias: '海上乐园', district: 'beidaihe', grade: 'A', lat: 39.817, lon: 119.39, rect: [45, 40], focusY: 35, photoR: 800, lod: xianluodaoLOD, build: buildXianluodao,
     desc: '仙螺岛是南戴河海域的人工岛，以螺旋形观光塔"仙螺阁"为标志。岛上有海上蹦极、海鲜餐厅等设施，通过千米跨海索道与南戴河海岸相连，是国内唯一的海上索道跨海项目。' },
   { id: 'beidaihepier', name: '北戴河码头', hidden: true, district: 'beidaihe', grade: 'B', lat: 39.84, lon: 119.51, snap: 'north', snapOff: 0, rot: Math.PI, rect: [12, 10], focusY: 4, build: buildBeidaihePier },
   

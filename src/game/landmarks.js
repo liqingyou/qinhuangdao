@@ -13,13 +13,16 @@ export class LandmarkManager {
       const p = project(def.lat, def.lon)
       let x = p.x, z = p.z
       if (def.snap) {
-        const [dx, dz] = { south: [0, 1], north: [0, -1], east: [1, 0], west: [-1, 0] }[def.snap]
-        for (let i = 0; i < 1500; i++) {
-          if (isWater(x + dx * i, z + dz * i)) {
-            const k = i - (def.snapOff || 0)
-            x += dx * k
-            z += dz * k
-            break
+        const dir = { south: [0, 1], north: [0, -1], east: [1, 0], west: [-1, 0] }[def.snap]
+        if (dir) {
+          const [dx, dz] = dir
+          for (let i = 0; i < 1500; i++) {
+            if (isWater(x + dx * i, z + dz * i)) {
+              const k = i - (def.snapOff || 0)
+              x += dx * k
+              z += dz * k
+              break
+            }
           }
         }
       }
