@@ -2,7 +2,7 @@
 // 秦皇岛景点
 import { buildShanhaiguan, buildFirstPass, buildLaolongtou, shanhaiguanLOD, laolongtouLOD } from './shanhaiguan.js'
 import { buildBeidaiheBeach, buildGeziwo, buildLianfengshan, buildNandaihe, buildXianluodao, beidaiheLOD, xianluodaoLOD } from './beidaihe.js'
-import { buildQinhuangdaoPort, buildOlympicPark, buildWildZoo, buildLedaoOceanPark } from './haigang.js'
+import { buildQinhuangdaoPort, buildOlympicPark, buildWildZoo, buildLedaoOceanPark, buildHaiyangGridHall } from './haigang.js'
 import { buildZushan, buildJieshi, zushanLOD } from './outer.js'
 import { C, railing, lamp } from './common.js'
 
@@ -54,6 +54,9 @@ export const LANDMARKS = [
     desc: '秦皇岛野生动物园是中国城市中规划面积最大的野生动物园，采用大规模野生放养方式，可以近距离观赏东北虎、非洲狮、长颈鹿等动物。' },
   { id: 'ledao', name: '乐岛海洋公园', district: 'haigang', grade: 'A', lat: 39.95, lon: 119.68, rect: [85, 65], focusY: 8, build: buildLedaoOceanPark,
     desc: '乐岛海洋公园是以海洋为主题的综合性娱乐公园，有海豚表演、海洋动物展示、水上乐园等项目，是亲子游玩的好去处。' },
+  // 坐标：海阳路265号无公开经纬度，按 OSM 上门牌 175、200 号沿路外推，并放在路北侧
+  { id: 'haiyanggrid', name: '海阳路供电营业厅', alias: '国家电网', district: 'haigang', grade: 'B', lat: 39.9336, lon: 119.5907, rect: [28, 24], focusY: 12, build: buildHaiyangGridHall,
+    desc: '国网秦皇岛供电公司海阳路供电营业厅，位于海港区海阳路265号原交警支队大楼一层。可办理用电报装、电费和充电桩报装等业务。电话 0335-3382734。营业时间：周一至周五 8:30–17:30，周末及法定节假日 8:30–17:00。' },
   
   // ---------- 外围景区 ----------
   { id: 'zushan', name: '祖山', alias: '塞北黄山', district: 'qinglong', grade: 'A', lat: 40.10, lon: 119.50, rect: [120, 100], focusY: 80, photoR: 1500, lod: zushanLOD, build: buildZushan, foundation: true,
